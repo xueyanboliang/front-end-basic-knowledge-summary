@@ -104,4 +104,72 @@ left - 元素的左边缘可能不与另一个浮动元素邻接。
 right - 元素的右边缘可能不与另一个浮动元素邻接。
 both - 两边都不能与另一个浮动元素邻接。
 none - 元素不被清除，并且任一边缘可以邻接另一个浮动元素。
-####     
+#### CSS组合选择符
+CSS组合选择符包括各种简单选择符的组合方式。
+##### 在 CSS3 中包含了四种组合方式:
+后代选取器(以空格间隔)
+
+子元素选择器(已大于号间隔)
+
+相邻兄弟选择器(以加号间隔)
+
+相邻兄弟选择器（Adjacent sibling selector）可选择紧接在另一元素后的元素，且二者有相同父元素。
+如果需要选择紧接在另一个元素后的元素，而且二者有相同的父元素，可以使用相邻兄弟选择器（Adjacent sibling selector）
+
+普通兄弟选择器(以波浪号间隔)
+
+普通兄弟选择器选取所有指定元素的相邻兄弟元素。
+### 伪类的语法 
+selector.class: pseudo-class {property:value;}
+#### 所有css伪类/元素
+:link	a:link	选择所有未访问链接
+
+:visited	a:visited	选择所有访问过的链接
+
+:active	a:active	选择正在活动链接
+
+:hover	a:hover	把鼠标放在链接上的状态
+
+:focus	input:focus	选择元素输入后具有焦点
+
+:first-letter	p:first-letter	选择每个p元素的第一个字母
+
+:first-line	p:first-line	选择每个p 元素的第一行
+
+:first-child	p:first-child	选择器匹配属于任意元素的第一个子元素的 p 元素
+
+:before	p:before	在每个p元素之前插入内容
+
+:after	p:after	在每个p元素之后插入内容
+
+:lang(language)	p:lang(it)	为p元素的lang属性选择一个开始值
+### 伪类和伪元素的区别
+
+伪元素产生新对象，在DOM树中看不到，但是可以操作；伪类不产生新的对象，仅是DOM中一个元素的不同状态
+### 透明度：opacity 
+IE8和早期版本使用滤镜：alpha（opacity= x）。 x可以采取的值是从0 - 100。较低的值，使得元素更加透明。
+### 通过媒询@media对不同设备应用不同的样式
+### 属性选择器
+input[type="text"] 
+
+{ 
+width:150px; 
+display:block; 
+margin-bottom:10px; 
+background-color:yellow; 
+} 
+
+input[type="button"] 
+
+{ 
+width:120px; 
+margin-left:35px; 
+display:block; 
+}
+### 网格布局是响应式的
+### 关于background-size
+如果 background-size 属性设置为 "contain", 背景图片将按比例自适应内容区域。图片保持其比例不变：
+
+如果 background-size 属性设置为 "100% 100%" ，背景图片将延展覆盖整个区域：
+
+如果 background-size 属性设置为 "cover"，则会把背景图像扩展至足够大，以使背景图像完全覆盖背景区域。注意该属性保持了图片的比例因此 背景图像的某些部分无法显示在背景定位区域中。
