@@ -1,32 +1,22 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<meta charset="utf-8"> 
-<title>W3Cschool教程(w3cschool.cn)</title> 
-<style> 
-.newspaper
-{
-	-moz-column-count:3; /* Firefox */
-	-webkit-column-count:3; /* Safari and Chrome */
-	column-count:3;
-
-	-moz-column-gap:40px; /* Firefox */
-	-webkit-column-gap:40px; /* Safari and Chrome */
-	column-gap:40px;
-
-	-moz-column-rule:4px outset #ff00ff; /* Firefox */
-	-webkit-column-rule:4px outset #ff00ff; /* Safari and Chrome */
-	column-rule:40px outset #ff00ff;
-}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
 </head>
 <body>
-
-<p><b>注意:</b> Internet Explorer 9及更早 IE 版本浏览器不支持 column-count 属性。</p>
-
-<div class="newspaper">
-当我年轻的时候，我梦想改变这个世界;当我成熟以后，我发现我不能够改变这个世界，我将目光缩短了些，决定只改变我的国家;当我进入暮年以后，我发现我不能够改变我们的国家，我的最后愿望仅仅是改变一下我的家庭，但是，这也不可能。当我现在躺在床上，行将就木时，我突然意识到：如果一开始我仅仅去改变我自己，然后，我可能改变我的家庭;在家人的帮助和鼓励下，我可能为国家做一些事情;然后，谁知道呢?我甚至可能改变这个世界。
-</div>
-
+    <div>
+        <button>1</button>
+        <button>2</button>
+        <button>3</button>
+        <button>4</button>
+        <button>5</button>
+    </div>
+    <script>
+        let divEle = document.querySelector('div')
+        console.log(divEle.children[0], divEle.lastChild)
+    </script>
 </body>
 </html>
