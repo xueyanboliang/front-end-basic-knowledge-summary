@@ -2,9 +2,9 @@
 ### id和class选择器，id和class的命名都不要以数字开头，这样在火狐浏览器中无效
 ### 样式表优先级： 浏览器缺省值设置<外部样式表<内部样式表<内联样式表
 ### 各种样式表的应用范围：
-####外部样式表：当样式需要应用于很多页面时，外部样式表将是理想的选择。在使用外部样式表的情况下，你可以通过改变一个文件来改变整个站点的外观。每个页面使用 标签链接到样式表。
-####内部样式表：当单个文档需要特殊的样式时，就应该使用内部样式表。
-####内联样式表：由于要将表现和内容混杂在一起，内联样式会损失掉样式表的许多优势。请慎用这种方法，例如当样式仅需要在一个元素上应用一次时。要使用内联样式，你需要在相关的标签内使用样式（style）属性。Style 属性可以包含任何 CSS 属性。
+#### 外部样式表：当样式需要应用于很多页面时，外部样式表将是理想的选择。在使用外部样式表的情况下，你可以通过改变一个文件来改变整个站点的外观。每个页面使用 标签链接到样式表。
+#### 内部样式表：当单个文档需要特殊的样式时，就应该使用内部样式表。
+#### 内联样式表：由于要将表现和内容混杂在一起，内联样式会损失掉样式表的许多优势。请慎用这种方法，例如当样式仅需要在一个元素上应用一次时。要使用内联样式，你需要在相关的标签内使用样式（style）属性。Style 属性可以包含任何 CSS 属性。
 ### 选择器优先级:
 通用选择器（*）
 元素(类型)选择器
@@ -27,7 +27,7 @@ HTML 标签选择器的权值为 1
  ### CSS属性方面的注意点
  #### background-color 不能继承，其默认值是 transparent。如果一个元素没有指定背景色，那么背景就是透明的，这样其父元素的背景才可见。
  #### 用 background-position：x方面，y方向 属性改变图像在背景中的位置
- ####当使用背景简写属性时，属性值的顺序为：(color image repeat attachment position)
+ #### 当使用背景简写属性时，属性值的顺序为：(color image repeat attachment position)
     background-color
     background-image
     background-repeat
@@ -174,3 +174,182 @@ display:block;
 
 如果 background-size 属性设置为 "cover"，则会把背景图像扩展至足够大，以使背景图像完全覆盖背景区域。注意该属性保持了图片的比例因此 背景图像的某些部分无法显示在背景定位区域中。
 ## CSS3总结
+### 设置阴影  box-shadow: h-shadow v-shadow blur spread color inset;
+### 设置圆角 border-radius
+
+如果你在 border-radius 属性中只指定一个值，那么将生成 4 个 圆角。
+但是，如果你要在四个角上一一指定，可以使用以下规则：
+四个值: 第一个值为左上角，第二个值为右上角，第三个值为右下角，第四个值为左下角。
+三个值: 第一个值为左上角, 第二个值为右上角和左下角，第三个值为右下角
+两个值: 第一个值为左上角与右下角，第二个值为右上角与左下角
+一个值： 四个圆角值相同
+### 设置边框图片 border-image
+### CSS3中background-clip背景剪裁属性是从指定位置开始绘制
+### CSS3 允许你在元素中添加多个背景图像。且可以指定放在不同的位置
+
+  background-image: url(/statics/images/course/img_flwr.gif), url(/statics/images/course/paper.gif);
+
+ background-position: right bottom, left top;
+ ### background-Origin属性指定了背景图像的位置区域。
+
+content-box, padding-box,和 border-box区域内可以放置背景图像。
+### 渐变
+#### 线性渐变
+background: linear-gradient(red, green, blue);
+#### 径向渐变
+background: radial-gradient(red, green, blue);
+### CSS3中，text-shadow属性适用于文本阴影。
+ text-shadow: 5px 5px 5px #FF0000;
+### white-space: nowrap 规定段落中的文本不进行换行
+### word-wrap	允许对长的不可分割的单词进行分割并换行到下一行
+word-wrap: normal|break-word;
+### CSS3字体
+@font-face
+
+{
+
+   font-family: myFirstFont;
+
+   src: url(sansation_bold.woff);
+
+   font-weight:bold;
+
+}
+
+### translate()方法，根据左(X轴)和顶部(Y轴)位置给定的参数，从当前元素位置移动。
+transform: translate(50px,100px);
+### rotate()方法，在一个给定度数顺时针旋转的元素。负值是允许的，这样是元素逆时针旋转。
+### 缩放 scale()方法，该元素增加或减少的大小，取决于宽度（X轴）和高度（Y轴）的参数：
+scale（2,4）转变宽度为原来的大小的2倍，和其原始大小4倍的高度。
+### 斜切 skew()方法，该元素会根据横向（X轴）和垂直（Y轴）线参数给定角度：
+skew(30deg,20deg) 元素在X轴和Y轴上倾斜20度30度。
+### matrix()方法和2D变换方法合并成一个。
+matrix 方法有六个参数，包含旋转，缩放，移动（平移）和倾斜功能。
+### 变换基点 transform-origin: x-axis y-axis z-axis;
+### transform-style属性指定嵌套元素是怎样在三维空间中呈现。
+flat	子元素将不保留其 3D 位置。
+
+preserve-3d	子元素将保留其 3D 位置。
+### 设置从何处查看一个元素的角度perspective:number|none;
+number	元素距离视图的距离，以像素计。
+
+none	默认值。与 0 相同。不设置透视。
+### backface-visibility	定义元素在不面对屏幕时是否可见。值为hidden或者visible
+### translate3d(x,y,z)	定义 3D 转化。
+### rotate3d(x,y,z,angle)	定义 3D 旋转。
+### CSS3 过渡是元素从一种样式逐渐改变为另一种的效果。
+要实现这一点，必须规定两项内容：
+指定要添加效果的CSS属性
+指定效果的持续时间。
+
+transition: width 2s, height 2s, transform 2s; 
+
+transition: width 1s linear 2s; 
+### CSS3动画
+@keyframes规则是创建动画。 @keyframes规则内指定一个CSS样式和动画将逐步从目前的样式更改为新的样式。
+
+@keyframes myfirst（动画的名称）
+{
+from {background: red;}
+to {background: yellow;}
+}
+
+当在@keyframe创建动画，把它绑定到一个选择器，否则动画不会有任何效果。
+指定至少这两个CSS3的动画属性绑定向一个选择器：
+规定动画的名称
+规定动画的时长
+
+div
+{
+animation: myfirst（动画的名称） 5s;
+-webkit-animation: myfirst 5s; /* Safari and Chrome */
+}
+
+简写属性：animation: myfirst 5s linear 2s infinite alternate;
+
+### CSS3 多列 通过 CSS3，您能够创建多个列来对文本进行布局
+
+column-count	指定元素应分为的列数
+
+column-fill	指定如何填充列	
+
+column-gap	指定列之间差距	
+
+column-rule	一个用于设置所有列规则的简写属性
+
+column-rule-color	指定的列之间颜色规则
+
+column-rule-style	指定的列之间的样式规则
+
+column-rule-width	指定的列之间的宽度规则
+
+column-span	指定一个元素应该横跨多少列
+
+column-width	指定列的宽度
+
+columns	缩写属性设置列宽和列数
+
+栗子： column-rule:3px outset #ff00ff;
+### CSS用户界面
+resize属性指定一个元素是否是由用户调整大小的。
+
+outline-offset	外轮廓修饰并绘制超出边框的边缘
+
+appearance	允许您使一个元素的外观像一个标准的用户界面元素
+
+icon 属性为创作者提供了将元素设置为图标等价物的能力
+
+注意：元素的图标是不可使用，除非"content"属性设置为"icon"！
+
+img
+{
+content:icon;
+icon:url(imgicon.png);
+}
+### 响应式图片
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+.responsive {
+    padding: 0 6px;
+    float: left;
+    width: 24.99999%;
+}
+
+@media only screen and (max-width: 700px){
+    .responsive {
+        width: 49.99999%;
+        margin: 6px 0;
+    }
+}
+
+@media only screen and (max-width: 500px){
+    .responsive {
+        width: 100%;
+    }
+}
+### filter 属性定义了元素(通常是<img>)的可视效果(例如：模糊与饱和度)。
+### 弹性盒模型
+使用弹性盒子，居中变的很简单，只想要设置弹性子元素margin: auto; 可以使得弹性子元素在两上轴方向上完全居中:
+
+display	指定 HTML 元素盒子类型。
+
+flex-direction	指定了弹性容器中子元素的排列方式
+
+justify-content	设置弹性盒子元素在主轴（横轴）方向上的对齐方式。
+
+align-items	设置弹性盒子元素在侧轴（纵轴）方向上的对齐方式。
+
+flex-wrap	设置弹性盒子的子元素超出父容器时是否换行。
+
+align-content	修改 flex-wrap 属性的行为，类似align-items, 但不是设置子元素对齐，而是设置行对齐
+
+flex-flow	flex-direction 和 flex-wrap 的简写
+
+order	设置弹性盒子的子元素排列顺序。
+
+align-self	在弹性子元素上使用。覆盖容器的 align-items 属性。
+
+flex	设置弹性盒子的子元素如何分配空间。
