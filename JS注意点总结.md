@@ -337,6 +337,8 @@ readyState的几个状态：
 3.自执行函数中的this永远指的是windowz
 
 4.构造函数中的this指当前实例
+
+5.定时器中的this指window
 ### 面向对象
 #### 封装
 #### 继承
@@ -397,3 +399,194 @@ propertyIsEnumerable：是否可枚举的属性
     带var：1）会进行预解析 2）如果是全局变量的话，带var的还是全局属性window.xx
     不带var: 1)不进行预解析；2)如果是设置的话会沿作用域链一层一层向上查找，找不到的话则为全局变量
 ### 上级作用域： 只跟函数的堆内存在哪里开辟即函数在哪里定义有关，跟函数在哪里调用无关
+### 比较推崇的一种继承方法：寄生组合继承
+// 父类
+
+function Animal (name) {
+
+    this.name = name || 'Animal'
+
+    this.sleep = function () {
+
+        console.log(`${this.name} is sleeping`)
+
+    }
+
+}
+
+Animal.prototype.eat = function (food) {
+
+    console.log(`${this.name} is eating ${food}`)
+
+}
+
+//子类
+function Cat () {
+
+    //通过call调用父类实例属性和方法
+
+    Animal.call(this, 'cat')
+
+    this.smile = () => {
+
+        console.log(`${this.name} is sleeping`)
+
+    }
+
+}
+
+// 声明一个空类，使空类的原型等于父类的原型
+
+function Super () {}
+
+Super.prototype = Animal.prototype
+
+// 使子类的原型等于空类的实例
+
+Cat.prototype = new Super()
+
+// 定义所属类
+
+Cat.prototype.constructor = Cat
+
+//这样就继承了父类的实例属性和方法以及原型上的属性和方法，还可以实现多继承
+### 一般情况下，我们开发JS都用非严格模式；
+    /*非严格模式*/
+    fn.call()//this - window; 
+
+    fn.call(null)//this - window;
+
+    fn.call(undefined) //this -window
+
+    /*严格模式下 'use strict'，给call或apply第一个参数传谁this就是谁，不传就是undefined*/
+
+    fn.call() //this - undefined;
+    
+    fn.call(null) //this -null;
+
+    fn.call(undefined) //this-undefined
+### 三种绑定数据的思路及DOM回流
+DOM回流：当页面中的HTML发生变化的时候，会对页面中的所有内容都重新渲染；
+
+思路1：字符串拼接
+
+    缺点：相当于把页面中的内容拿出来，跟我们已经拼接好的字符串str再进行字符串拼接；最后拿到新拼接好的字符串把他转化为标签，重新放入页面中；所以，以前页面中元素身上的事件就都没有了；
+
+    优点：只引发一次DOM回流
+
+    工作中用的最多的就是字符串拼接；
+思路2：动态创建，循环中每次插入---缺点：每循环一次，就会DOM回流一次，耗性能；
+
+    优点：可以保留以前元素身上的事件 
+
+思路3：动态创建+文档碎片document.createDocumentFragment();
+### document.createDocumentFragment()
+    他只引发一次DOM回流，而且可以保留原来元素身上的事件
+### js常见的异步处理
+1.元素上的事件
+
+2.定时器
+
+3.ajax
+
+4.回调函数
+### JS盒子模型
+用JS的属性和方法，去获取浏览器计算过的元素的各种样式值
+
+JS的属性和方法
+
+client系列
+
+clientWidth等于内容宽(content-box) + 左右padding
+
+clientHeight同理
+
+offset系列
+
+offsetWidth等于clientWidth + 左右边框值
+
+offsetHeight同理
+
+offsetLeft等于元素外边框到具有定位父级的内边框的距离
+
+offsetTop同理
+
+scroll系列
+
+在没有内容溢出的情况下scrollWidth相当于clientWidth,在溢出的情况下相当于padding-left + 内容的真实宽度
+
+scrollHeight同理
+
+scrollTop等于浏览器卷去的高度
+
+scrollLeft同理
+
+### 事件
+鼠标事件: MouseEvent
+
+onclick onmouseover onmouseout (onmouseenter, onmouseleave这两个事件不会经历冒泡阶段) onmousewheel
+
+系统事件: Event
+
+onload onscroll onresize...
+
+键盘事件 KeyboardEvent
+onkeydown onkeyup onkeypress
+
+表单事件：FocusEvent
+
+onfocus onblur....
+
+2.DOM0级事件:元素的私有属性
+
+DOM2级事件：在当前元素所属eventTarget这个类的原型上；
+解决了一个问题：在同一个元素上，触发相同的行为（事件），执行不同的方法；
+1)DOM0级事件能发生冒泡阶段
+
+3.事件对象
+
+e:存储的是触发当前元素的事件或行为的详细信息
+
+但是他不兼容IE6-8:window.event;
+
+兼容处理：e=e||window.event;
+
+type:事件类型
+
+clientX/Y:到可视区左上角的距离
+pageX/Y:到首屏左上角的距离（即文档定位左上角的距离）它不兼容IE6-8；可以做如下兼容处理：
+e.pageX=(document.documentElement.scrollLeft||document.body.scrollLeft)+ e.clientX;
+e.pageY=(document.documentElement.scrollTop||document.body.scrollTop)+ e.clientY;
+
+e.keyCode:键盘的键码
+
+e.target:现在触发事件的这个元素--事件源 不兼容IE6-8：e.srcElement;
+
+兼容处理：e.target||e.srcElement;
+
+阻止默认事件的兼容处理：
+
+第一种兼容处理：e.preventDefault? e.preventDefault(): e.returnValue=false;
+
+第二种兼容处理：return false;
+
+4.运算符的优先级：
+
+算术运算符>比较运算符>逻辑>赋值
+5.事件流：
+
+想控制当前事件在事件流的哪个阶段发生：应该用DOM2级事件；（addEventListener第三个参数来控制）
+
+捕获阶段 目标阶段（事件源） 冒泡阶段
+
+捕获：从外向里依次查找元素；
+
+冒泡：从里向外触发元素身上的事件;当元素身上的事件click被触发的时候，如果他的父级身上有相同的事件，都会被触发；如果有绑定的方法，这些方法都会被执行；
+
+6.阻止冒泡的兼容处理：
+
+e.stopPropagation?e.stopPropagation:e.cancelBubble = true
+### 其他
+$(document).ready(function(){}) ---JS中的事件是DOMContentLoaded
+
+addEventListener 和 attachEvent（针对IE的事件监听API）

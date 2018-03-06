@@ -18,6 +18,13 @@
         let divEle = document.querySelector('div')
         let btn = divEle.querySelector('button')
         console.log(btn.nextSibling,btn.nextElementSibling)
+        function func () {
+            console.log(this)
+        }
+        func.call()
+        func.call(null)
+        func.call(undefined)
+
     </script>
 </body>
 </html>

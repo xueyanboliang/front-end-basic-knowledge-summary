@@ -1,4 +1,6 @@
-func(2)
-function func(a) {
-	console.log(a)
+function func () {
+	console.log(this)
 }
+func.call()
+func.call(null)
+func.call(undefined)
