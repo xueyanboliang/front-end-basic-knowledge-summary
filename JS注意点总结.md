@@ -590,3 +590,5 @@ e.stopPropagation?e.stopPropagation:e.cancelBubble = true
 $(document).ready(function(){}) ---JS中的事件是DOMContentLoaded
 
 addEventListener 和 attachEvent（针对IE的事件监听API）
+
+Object.create() 方法会使用指定的原型对象及其属性去创建一个新的对象。

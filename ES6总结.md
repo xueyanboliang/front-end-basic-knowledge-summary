@@ -306,3 +306,257 @@ let z = { a: 3, b: 4 };
 let n = { ...z };
 
 n // { a: 3, b: 4 }
+### symbol 一种新的js基本数据类型，与字符串类似，但独一无二。如： let s = Symbol
+Symbol函数可以接受一个字符串作为参数，表示对 Symbol 实例的描述，主要是为了在控制台显示，或者转为字符串时，比较容易区分。
+
+如果 Symbol 的参数是一个对象，就会调用该对象的toString方法，将其转为字符串，然后才生成一个 Symbol 值。
+
+注意，Symbol函数的参数只是表示对当前 Symbol 值的描述，因此相同参数的Symbol函数的返回值是不相等的。
+
+Symbol 值不能与其他类型的值进行运算，会报错。
+
+Symbol 值也可以转为布尔值，但是不能转为数值。
+#### 用途：作为属性名
+由于每一个 Symbol 值都是不相等的，这意味着 Symbol 值可以作为标识符，用于对象的属性名，就能保证不会出现同名的属性。这对于一个对象由多个模块构成的情况非常有用，能防止某一个键被不小心改写或覆盖。
+
+注意，Symbol 值作为对象属性名时，不能用点运算符。
+
+const mySymbol = Symbol();
+
+const a = {};
+
+a.mySymbol = 'Hello!';
+
+a[mySymbol] // undefined
+
+a['mySymbol'] // "Hello!"
+
+上面代码中，因为点运算符后面总是字符串，所以不会读取mySymbol作为标识名所指代的那个值，导致a的属性名实际上是一个字符串，而不是一个 Symbol 值。
+
+同理，在对象的内部，使用 Symbol 值定义属性时，Symbol 值必须放在方括号之中。
+
+#### 魔术字符串 魔术字符串指的是，在代码之中多次出现、与代码形成强耦合的某一个具体的字符串或者数值。风格良好的代码，应该尽量消除魔术字符串，改由含义清晰的变量代替。
+常用的消除魔术字符串的方法，就是把它写成一个变量。
+
+### set 和 map数据结构
+#### ES6 提供了新的数据结构 Set。它类似于数组，但是成员的值都是唯一的，没有重复的值。
+Set 函数可以接受一个数组（或者具有 iterable 接口的其他数据结构）作为参数，用来初始化。
+
+向 Set 加入值的时候，不会发生类型转换，所以5和"5"是两个不同的值。Set 内部判断两个值是否不同，使用的算法叫做“Same-value-zero equality”，它类似于精确相等运算符（===），主要的区别是NaN等于自身，而精确相等运算符认为NaN不等于自身。
+
+Set 结构的实例有以下属性。
+
+Set.prototype.constructor：构造函数，默认就是Set函数。
+
+Set.prototype.size：返回Set实例的成员总数。
+
+Set 实例的方法分为两大类：操作方法（用于操作数据）和遍历方法（用于遍历成员）。下面先介绍四个操作方法。
+
+add(value)：添加某个值，返回 Set 结构本身。
+
+delete(value)：删除某个值，返回一个布尔值，表示删除是否成功。
+
+has(value)：返回一个布尔值，表示该值是否为Set的成员。
+
+clear()：清除所有成员，没有返回值。
+
+Array.from方法可以将 Set 结构转为数组。
+##### 这就提供了去除数组重复成员的另一种方法。
+
+function dedupe(array) {
+
+  return Array.from(new Set(array));
+
+}
+
+dedupe([1, 1, 2, 3]) // [1, 2, 3]
+
+Set 结构的实例有四个遍历方法，可以用于遍历成员。
+
+keys()：返回键名的遍历器
+
+values()：返回键值的遍历器
+
+entries()：返回键值对的遍历器
+
+forEach()：使用回调函数遍历每个成员
+
+keys方法、values方法、entries方法返回的都是遍历器对象。由于 Set 结构没有键名，只有键值（或者说键名和键值是同一个值），所以keys方法和values方法的行为完全一致。
+
+forEach方法的参数就是一个处理函数。该函数的参数与数组的forEach一致，依次为键值、键名。这里需要注意，Set 结构的键名就是键值（两者是同一个值），因此第一个参数与第二个参数的值永远都是一样的。
+### Map ES6 提供了 Map 数据结构。它类似于对象，也是键值对的集合，但是“键”的范围不限于字符串，各种类型的值（包括对象）都可以当作键。也就是说，Object 结构提供了“字符串—值”的对应，Map 结构提供了“值—值”的对应，是一种更完善的 Hash 结构实现。如果你需要“键值对”的数据结构，Map 比 Object 更合适。
+作为构造函数，Map 也可以接受一个数组作为参数。该数组的成员是一个个表示键值对的数组。
+
+Map 的键实际上是跟内存地址绑定的，只要内存地址不一样，就视为两个键。这就解决了同名属性碰撞（clash）的问题，我们扩展别人的库的时候，如果使用对象作为键名，就不用担心自己的属性与原作者的属性同名。
+
+如果 Map 的键是一个简单类型的值（数字、字符串、布尔值），则只要两个值严格相等，Map 将其视为一个键，比如0和-0就是一个键，布尔值true和字符串true则是两个不同的键。另外，undefined和null也是两个不同的键。虽然NaN不严格相等于自身，但 Map 将其视为同一个键。
+#### 实例的属性和操作方法 
+size属性返回 Map 结构的成员总数
+
+set(key, value) set方法设置键名key对应的键值为value，然后返回整个 Map 结构。如果key已经有值，则键值会被更新，否则就新生成该键。
+
+get(key) get方法读取key对应的键值，如果找不到key，返回undefined。
+
+has(key) has方法返回一个布尔值，表示某个键是否在当前 Map 对象之中。
+
+delete(key) delete方法删除某个键，返回true。如果删除失败，返回false。
+
+clear() clear方法清除所有成员，没有返回值。
+
+Map 结构原生提供三个遍历器生成函数和一个遍历方法。
+
+keys()：返回键名的遍历器。
+
+values()：返回键值的遍历器。
+
+entries()：返回所有成员的遍历器。
+
+forEach()：遍历 Map 的所有成员。
+
+需要特别注意的是，Map 的遍历顺序就是插入顺序。
+#### 与其他数据结构的相互转换
+Map 转为数组最方便的方法，就是使用扩展运算符（...）。
+
+将数组传入 Map 构造函数，就可以转为 Map。
+
+### 函数的扩展
+
+#### 扩展运算符（spread）是三个点（...）。它好比 rest 参数的逆运算，将一个数组转为用逗号分隔的参数序列。
+
+#### 扩展运算符的用途：
+1.复制数组
+
+2.合并数组
+
+3.与解构赋值结合
+
+4.扩展运算符还可以将字符串转为真正的数组。
+
+5.实现了 Iterator 接口的对象  任何 Iterator 接口的对象（参阅 Iterator 一章），都可以用扩展运算符转为真正的数组。
+#### Array.from()
+Array.from方法用于将两类对象转为真正的数组：类似数组的对象（array-like object）和可遍历（iterable）的对象（包括 ES6 新增的数据结构 Set 和 Map）
+#### Array.of方法用于将一组值，转换为数组。
+Array.of(3, 11, 8) // [3,11,8]
+
+Array.of(3) // [3]
+
+Array.of(3).length // 1
+#### 数组实例的 entries()，keys() 和 values()
+#### 数组实例的includes方法 返回一个布尔值，表示某个数组是否包含给定的值。如:[1,2,3].includes(2) => true
+### Proxy 
+Proxy 用于修改某些操作的默认行为，等同于在语言层面做出修改，所以属于一种“元编程”（meta programming），即对编程语言进行编程。
+
+Proxy 可以理解成，在目标对象之前架设一层“拦截”，外界对该对象的访问，都必须先通过这层拦截，因此提供了一种机制，可以对外界的访问进行过滤和改写。Proxy 这个词的原意是代理，用在这里表示由它来“代理”某些操作，可以译为“代理器”。
+#### var proxy = new Proxy(target, handler);表示对proxy进行代理
+Proxy 对象的所有用法，都是上面这种形式，不同的只是handler参数的写法。其中，new Proxy()表示生成一个Proxy实例，target参数表示所要拦截的目标对象，handler参数也是一个对象，用来定制拦截行为。
+
+注意，要使得Proxy起作用，必须针对Proxy实例（上例是proxy对象）进行操作，而不是针对目标对象（上例是空对象）进行操作。
+##### this问题
+在 Proxy 代理的情况下，目标对象内部的this关键字会指向 Proxy 代理。
+### Reflect（主要是一些语言内部的方法）
+reflect的作用：
+1.替代object对象上一些针对语言内部的方法。现阶段，某些方法同时在Object和Reflect对象上部署，未来的新方法将只部署在Reflect对象上。也就是说，从Reflect对象上可以拿到语言内部的方法。
+
+2.修改某些Object方法的返回结果，让其变得更合理。比如，Object.defineProperty(obj, name, desc)在无法定义属性时，会抛出一个错误，而Reflect.defineProperty(obj, name, desc)则会返回false。
+
+3.让Object操作都变成函数行为。某些Object操作是命令式，比如name in obj和delete obj[name]，而Reflect.has(obj, name)和Reflect.deleteProperty(obj, name)让它们变成了函数行为。
+
+4.使Proxy可以方便地调用Reflect方法，完成默认行为，作为修改行为的基础。Reflect对象的方法与Proxy对象的方法一一对应，只要是Proxy对象的方法，就能在Reflect对象上找到对应的方法。也就是说，不管Proxy怎么修改默认行为，你总可以在Reflect上获取默认行为。
+#### Reflect.apply(func, thisArg, args)
+Reflect.apply方法等同于Function.prototype.apply.call(func, thisArg, args)，用于绑定this对象后执行给定函数。
+#### Reflect.isExtensible (target)
+Reflect.isExtensible方法对应Object.isExtensible，返回一个布尔值，表示当前对象是否可扩展。
+#### Reflect.ownKeys (target)
+Reflect.ownKeys方法用于返回对象的所有属性，基本等同于Object.getOwnPropertyNames与Object.getOwnPropertySymbols之和。
+#### 总结：逐渐开始用reflect系列方法代替Object操作语言内部的方法，因为Object这些方法会慢慢被废除
+### Promise
+Promise 是异步编程的一种解决方案，比传统的解决方案——回调函数和事件——更合理和更强大。它由社区最早提出和实现，ES6 将其写进了语言标准，统一了用法，原生提供了Promise对象。
+
+所谓Promise，简单说就是一个容器，里面保存着某个未来才会结束的事件（通常是一个异步操作）的结果。从语法上说，Promise 是一个对象，从它可以获取异步操作的消息。Promise 提供统一的 API，各种异步操作都可以用同样的方法进行处理。
+
+Promise对象有以下两个特点。
+
+（1）对象的状态不受外界影响。Promise对象代表一个异步操作，有三种状态：pending（进行中）、fulfilled（已成功）和rejected（已失败）。只有异步操作的结果，可以决定当前是哪一种状态，任何其他操作都无法改变这个状态。这也是Promise这个名字的由来，它的英语意思就是“承诺”，表示其他手段无法改变。
+
+（2）一旦状态改变，就不会再变，任何时候都可以得到这个结果。Promise对象的状态改变，只有两种可能：从pending变为fulfilled和从pending变为rejected。只要这两种情况发生，状态就凝固了，不会再变了，会一直保持这个结果，这时就称为 resolved（已定型）。如果改变已经发生了，你再对Promise对象添加回调函数，也会立即得到这个结果。这与事件（Event）完全不同，事件的特点是，如果你错过了它，再去监听，是得不到结果的。
+
+有了Promise对象，就可以将异步操作以同步操作的流程表达出来，避免了层层嵌套的回调函数。此外，Promise对象提供统一的接口，使得控制异步操作更加容易。
+
+Promise也有一些缺点。首先，无法取消Promise，一旦新建它就会立即执行，无法中途取消。其次，如果不设置回调函数，Promise内部抛出的错误，不会反应到外部。第三，当处于pending状态时，无法得知目前进展到哪一个阶段（刚刚开始还是即将完成）。
+
+如果某些事件不断地反复发生，一般来说，使用 Stream 模式是比部署Promise更好的选择。
+#### Promise.prototype.then()
+Promise 实例具有then方法，也就是说，then方法是定义在原型对象Promise.prototype上的。它的作用是为 Promise 实例添加状态改变时的回调函数。前面说过，then方法的第一个参数是resolved状态的回调函数，第二个参数（可选）是rejected状态的回调函数。
+
+then方法返回的是一个新的Promise实例（注意，不是原来那个Promise实例）。因此可以采用链式写法，即then方法后面再调用另一个then方法。
+#### Promise.prototype.catch()
+Promise.prototype.catch方法是.then(null, rejection)的别名，用于指定发生错误时的回调函数。
+
+getJSON('/posts.json').then(function(posts) {
+
+  // ...
+
+}).catch(function(error) {
+
+  // 处理 getJSON 和 前一个回调函数运行时发生的错误
+
+  console.log('发生错误！', error);
+  
+});
+
+#### Promise.prototype.finally()
+finally方法用于指定不管 Promise 对象最后状态如何，都会执行的操作。该方法是 ES2018 引入标准的。
+
+promise
+
+.then(result => {···})
+
+.catch(error => {···})
+
+.finally(() => {···});
+#### Promise.all()
+Promise.all方法用于将多个 Promise 实例，包装成一个新的 Promise 实例。
+
+p的状态由p1、p2、p3决定，分成两种情况。
+
+const p = Promise.all([p1, p2, p3]);
+
+（1）只有p1、p2、p3的状态都变成fulfilled，p的状态才会变成fulfilled，此时p1、p2、p3的返回值组成一个数组，传递给p的回调函数。
+
+（2）只要p1、p2、p3之中有一个被rejected，p的状态就变成rejected，此时第一个被reject的实例的返回值，会传递给p的回调函数。
+#### Promise.race() 
+Promise.race方法同样是将多个 Promise 实例，包装成一个新的 Promise 实例。
+
+const p = Promise.race([p1, p2, p3]);
+
+上面代码中，只要p1、p2、p3之中有一个实例率先改变状态，p的状态就跟着改变。那个率先改变的 Promise 实例的返回值，就传递给p的回调函数。
+
+Promise.race方法的参数与Promise.all方法一样，如果不是 Promise 实例，就会先调用下面讲到的Promise.resolve方法，将参数转为 Promise 实例，再进一步处理。
+
+下面是一个例子，如果指定时间内没有获得结果，就将 Promise 的状态变为reject，否则变为resolve。
+
+const p = Promise.race([
+
+  fetch('/resource-that-may-take-a-while'),
+
+  new Promise(function (resolve, reject) {
+
+    setTimeout(() => reject(new Error('request timeout')), 5000)
+
+  })
+
+]);
+
+p
+.then(console.log)
+
+.catch(console.error);
+
+上面代码中，如果 5 秒之内fetch方法无法返回结果，变量p的状态就会变为rejected，从而触发catch方法指定的回调函数。
+### Promise.resolve()
+有时需要将现有对象转为 Promise 对象，Promise.resolve方法就起到这个作用。
+### Promise.reject()
+Promise.reject(reason)方法也会返回一个新的 Promise 实例，该实例的状态为rejected。
+### ES6 创造了一种新的遍历命令for...of循环，Iterator 接口主要供for...of消费。
+
+
