@@ -1,6 +1,1 @@
-function func () {
-	console.log(this)
-}
-func.call()
-func.call(null)
-func.call(undefined)
+console.log(Math.max(1, 3, 0,23, 8, 9))
