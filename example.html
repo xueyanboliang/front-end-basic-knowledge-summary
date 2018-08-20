@@ -1,49 +1,33 @@
-<!DOCTYPE HTML>
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=gb2312">
-<title>无标题文档</title>
-<style>
-.content {
-            float: left;
-            width: 100%;
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        @keyframes bound {
+            0% {
+                top: 170px
+            }
+            100% {
+                top: 230px;
+            }
+            
         }
-        .main {
-            height: 200px;
-            margin-left: 110px;
-            margin-right: 220px;
-            background: green;
-        }
-        .main::after {
-            content: '';
-            display: block;
-            font-size:0;
-            height: 0;
-            zoom: 1;
-            clear: both;
-        }
-        .left {
-            float:left;
-            height: 200px;
-            width: 100px;
-            margin-left: -100%;
+        div {
+            position: relative;
+            left: 100px;
+            top: 200px;
+            width: 16px;
+            height: 16px;
+            animation: bound 300ms ease-in-out infinite;
+            border-radius: 50%;
             background: red;
         }
-        .right {
-            float: right;
-            height: 200px;
-            width: 200px;
-            margin-left: -200px;
-            background: blue;
-        }
-</style>
+    </style>
 </head>
-
 <body>
-    <div class="content">
-        <div class="main"></div>
-    </div>
-    <div class="left"></div>
-    <div class="right"></div>
+    <div></div>
 </body>
 </html>
